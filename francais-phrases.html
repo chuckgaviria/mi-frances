@@ -458,7 +458,7 @@ code { color:var(--gold-light); background:rgba(255,255,255,0.06); padding:1px 6
 </main>
 </div>
 
-<script>
+<script type="module">
 // ══════════════════════════════════════════
 //  DATA — phrases with [keyword] markers
 // ══════════════════════════════════════════
@@ -565,19 +565,92 @@ function srLabel(card) {
 }
 
 // ══════════════════════════════════════════
-//  STORAGE
+//  FIREBASE SETUP
 // ══════════════════════════════════════════
-function loadData() {
+const firebaseConfig = {
+  apiKey: "AIzaSyC3pbM2sMbTsoj7tAi8W74HYjCyHwwFvuQ",
+  authDomain: "mi-frances.firebaseapp.com",
+  projectId: "mi-frances",
+  storageBucket: "mi-frances.firebasestorage.app",
+  messagingSenderId: "904507889507",
+  appId: "1:904507889507:web:e78da882806c527f806556"
+};
+
+// Load Firebase from CDN (explicit promise chain for Safari compatibility)
+let db, USER_DOC;
+await Promise.all([
+  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"),
+  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js")
+]).then(([appMod, fsMod]) => {
+  const fbApp = appMod.initializeApp(firebaseConfig);
+  db = fsMod.getFirestore(fbApp);
+  USER_DOC = fsMod.doc(db, 'users', 'main');
+  window._fsGetDoc = fsMod.getDoc;
+  window._fsSetDoc = fsMod.setDoc;
+});
+
+// ── Show a loading overlay while syncing ──
+function showLoading(msg) {
+  document.getElementById('sync-overlay').style.display = 'flex';
+  document.getElementById('sync-msg').textContent = msg;
+}
+function hideLoading() {
+  document.getElementById('sync-overlay').style.display = 'none';
+}
+
+// ── Load from Firestore — ALWAYS waits for cloud, never uses stale local cache ──
+async function loadData() {
   try {
-    const s = localStorage.getItem('francais_ctx_v2');
-    if (s) return JSON.parse(s);
-  } catch(e) {}
-  return DEFAULTS.map(d => ({ ...d, sr: null }));
+    // Race Firebase against a 10-second timeout
+    const snap = await Promise.race([
+      window._fsGetDoc(USER_DOC),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 10000))
+    ]);
+    if (snap.exists()) {
+      const data = snap.data();
+      const cloud = data.phrases || [];
+      // Save fresh cloud data to localStorage so offline fallback is always current
+      try { localStorage.setItem('francais_ctx_v2', JSON.stringify(cloud)); } catch(e) {}
+      // Merge with any DEFAULTS not yet in cloud
+      const cloudIds = new Set(cloud.map(p => p.id));
+      const newDefaults = DEFAULTS.filter(d => !cloudIds.has(d.id)).map(d => ({ ...d, sr: null }));
+      return [...cloud, ...newDefaults];
+    } else {
+      // First time ever — no cloud data yet, use DEFAULTS
+      return DEFAULTS.map(d => ({ ...d, sr: null }));
+    }
+  } catch(e) {
+    console.warn('Firebase load failed:', e.message);
+    // Only use localStorage as last resort (offline mode)
+    try {
+      const s = localStorage.getItem('francais_ctx_v2');
+      if (s) {
+        showLoading('⚠️ Sin conexión — usando datos locales');
+        setTimeout(hideLoading, 2500);
+        return JSON.parse(s);
+      }
+    } catch(e2) {}
+    return DEFAULTS.map(d => ({ ...d, sr: null }));
+  }
 }
+
+// ── Save to Firestore + localStorage as backup ──
+let saveTimer = null;
 function save() {
+  // Always update localStorage immediately as backup
   try { localStorage.setItem('francais_ctx_v2', JSON.stringify(phrases)); } catch(e) {}
+  // Debounced Firestore save
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try {
+      await window._fsSetDoc(USER_DOC, { phrases, streak: loadStreak() });
+    } catch(e) {
+      console.warn('Firebase save failed:', e);
+    }
+  }, 1500);
 }
-// Streak
+
+// ── Streak (stored in Firestore alongside phrases) ──
 function loadStreak() {
   try { return JSON.parse(localStorage.getItem('francais_streak') || '{"days":0,"last":""}'); } catch(e) { return {days:0,last:""}; }
 }
@@ -593,7 +666,7 @@ function saveStreak() {
   localStorage.setItem('francais_streak', JSON.stringify(s));
 }
 
-let phrases = loadData();
+let phrases = [];
 let currentFilter = 'Todas';
 let deck = [];
 let deckIdx = 0;
@@ -943,15 +1016,43 @@ document.addEventListener('keydown', e => {
 });
 
 // ══════════════════════════════════════════
-//  INIT
+//  INIT (async — loads from Firebase first)
 // ══════════════════════════════════════════
-function init() {
+async function init() {
+  showLoading('Sincronizando con la nube… ☁️');
+  phrases = await loadData();
+  hideLoading();
   deck = buildDeck();
   renderFilters();
   renderCard();
   updateHeaderStats();
 }
+
+// ── Expose functions for onclick handlers (required with type=module) ──
+Object.assign(window, {
+  flipCard, nextCard, prevCard, shuffleDeck, rate,
+  setFilter, filterDue,
+  addPhrase, deletePhrase, openEdit, closeEdit, saveEdit,
+  importCSV, downloadTemplate,
+  showSec, renderList
+});
+
 init();
 </script>
+
+<!-- Sync overlay -->
+<div id="sync-overlay" style="
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(13,27,42,0.92); backdrop-filter:blur(6px);
+  flex-direction:column; align-items:center; justify-content:center; gap:16px;
+">
+  <div style="font-size:36px; animation: spin 1.2s linear infinite">☁️</div>
+  <div id="sync-msg" style="font-family:'DM Sans',sans-serif; color:#c9a84c; font-size:15px; letter-spacing:0.05em">Cargando…</div>
+  <div style="font-size:12px; color:#7a8899">Conectando con Firebase…</div>
+</div>
+<style>
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+</style>
+
 </body>
 </html>
