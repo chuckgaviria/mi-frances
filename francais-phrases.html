@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Français · Frases en Contexto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy2: #142233;
+  --cream: #f0ebe0;
+  --gold: #c9a84c;
+  --gold-light: #e8d5a3;
+  --gold-dim: rgba(201,168,76,0.15);
+  --blue: #1a3a5c;
+  --muted: #7a8899;
+  --border: rgba(255,255,255,0.08);
+  --card-front: linear-gradient(145deg,#162840 0%,#0e1d2f 100%);
+  --card-back: linear-gradient(145deg,#1e1508 0%,#140f05 100%);
+  --highlight-esp: #f0c060;
+  --highlight-fra: #6fcf97;
+  --green: #2d7a4f;
+  --red: #8b2335;
+  --orange: #b07020;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  min-height: 100vh;
+  color: var(--cream);
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 10%, rgba(201,168,76,0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 90%, rgba(26,58,92,0.18) 0%, transparent 50%);
+  pointer-events: none; z-index: 0;
+}
+.app { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── HEADER ── */
+header {
+  padding: 18px 28px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  gap: 12px; flex-wrap: wrap;
+}
+.logo { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold); }
+.logo em { color: var(--cream); font-style: italic; }
+.header-stats { display: flex; gap: 18px; }
+.hstat { text-align: center; }
+.hstat strong { display: block; font-size: 18px; color: var(--gold); }
+.hstat span { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+
+/* ── NAV ── */
+nav {
+  display: flex; gap: 2px;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.tab {
+  padding: 11px 18px; background: transparent; border: none;
+  color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px;
+  cursor: pointer; border-bottom: 2px solid transparent;
+  transition: all 0.2s; white-space: nowrap; letter-spacing: 0.03em;
+}
+.tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab:hover:not(.active) { color: var(--cream); }
+
+/* ── MAIN ── */
+main { flex: 1; padding: 24px 28px; max-width: 740px; margin: 0 auto; width: 100%; }
+section { display: none; }
+section.active { display: block; }
+
+/* ── FILTERS ── */
+.filter-row { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 20px; }
+.fbtn {
+  padding: 5px 14px; border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.25); background: transparent;
+  color: var(--gold-light); font-size: 12px; cursor: pointer;
+  transition: all 0.18s; font-family: 'DM Sans', sans-serif;
+}
+.fbtn.active, .fbtn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+/* ── DUE BANNER ── */
+.due-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px; padding: 10px 16px; margin-bottom: 18px;
+  font-size: 13px; gap: 10px; flex-wrap: wrap;
+}
+.due-banner strong { color: var(--gold); }
+
+/* ── FLIP CARD ── */
+.card-wrap { perspective: 1400px; margin-bottom: 20px; }
+.flip-card {
+  width: 100%; min-height: 300px;
+  position: relative; transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+  cursor: pointer;
+}
+.flip-card.flipped { transform: rotateY(180deg); }
+.card-face {
+  position: absolute; inset: 0;
+  border-radius: 20px; backface-visibility: hidden;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 36px 40px; text-align: center;
+  min-height: 300px;
+}
+.card-front {
+  background: var(--card-front);
+  border: 1px solid rgba(201,168,76,0.2);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.card-back {
+  background: var(--card-back);
+  border: 1px solid rgba(201,168,76,0.35);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.45);
+  transform: rotateY(180deg);
+}
+.card-lang-tag {
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 22px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-lang-tag::before, .card-lang-tag::after {
+  content: ''; display: block; width: 22px; height: 1px;
+  background: var(--gold); opacity: 0.45;
+}
+
+/* The sentence on the card */
+.card-sentence {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; line-height: 1.55; color: var(--cream);
+  margin-bottom: 14px;
+}
+.card-sentence .hl {
+  color: var(--highlight-esp);
+  border-bottom: 2px solid var(--highlight-esp);
+  padding-bottom: 1px;
+}
+.card-back .card-sentence .hl { color: var(--highlight-fra); border-bottom-color: var(--highlight-fra); }
+
+.card-keyword {
+  font-size: 13px; color: var(--muted);
+  background: rgba(255,255,255,0.05);
+  padding: 4px 14px; border-radius: 12px; margin-bottom: 6px;
+}
+.card-note { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 6px; }
+.card-tap { position: absolute; bottom: 14px; right: 18px; font-size: 10px; color: rgba(255,255,255,0.18); }
+
+/* SR difficulty badge */
+.sr-badge {
+  position: absolute; top: 14px; left: 16px;
+  font-size: 10px; padding: 3px 9px; border-radius: 10px;
+  font-weight: 600; letter-spacing: 0.06em;
+}
+.sr-new { background: rgba(42,90,140,0.35); color: #7ab8f5; }
+.sr-due { background: rgba(201,168,76,0.2); color: var(--gold); }
+.sr-ok  { background: rgba(45,122,79,0.25); color: #6fcf97; }
+
+/* ── PROGRESS ── */
+.prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.prog-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #6fcf97); border-radius: 2px; transition: width 0.4s; }
+.prog-txt { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+/* ── CONTROLS ── */
+.ctrl-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+.btn {
+  padding: 11px 24px; border-radius: 11px; border: none;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.18s; letter-spacing: 0.02em;
+}
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* SR rating buttons */
+.sr-row {
+  display: none; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px;
+}
+.sr-row.visible { display: flex; }
+.sr-btn {
+  flex: 1; min-width: 90px; max-width: 140px;
+  padding: 10px 8px; border-radius: 11px; border: 1px solid transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.18s; text-align: center;
+}
+.sr-again  { background: rgba(139,35,53,0.2); color: #eb5757; border-color: rgba(139,35,53,0.4); }
+.sr-hard   { background: rgba(176,112,32,0.2); color: #f2994a; border-color: rgba(176,112,32,0.4); }
+.sr-good   { background: rgba(45,122,79,0.2); color: #6fcf97; border-color: rgba(45,122,79,0.4); }
+.sr-easy   { background: rgba(42,90,140,0.2); color: #7ab8f5; border-color: rgba(42,90,140,0.4); }
+.sr-again:hover  { background: rgba(139,35,53,0.4); }
+.sr-hard:hover   { background: rgba(176,112,32,0.4); }
+.sr-good:hover   { background: rgba(45,122,79,0.4); }
+.sr-easy:hover   { background: rgba(42,90,140,0.4); }
+.sr-label { display: block; font-size: 10px; font-weight: 400; opacity: 0.7; margin-top: 2px; }
+
+/* ── MANAGE SECTION ── */
+.sec-title { font-family:'Playfair Display',serif; font-size:24px; color:var(--gold); margin-bottom:6px; }
+.sec-sub { font-size:13px; color:var(--muted); margin-bottom:22px; }
+
+.add-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 16px; padding: 20px; margin-bottom: 20px;
+}
+.add-card h3 { font-size:14px; color:var(--gold); margin-bottom:14px; font-weight:500; }
+.field-grid { display: grid; grid-template-columns:1fr 1fr; gap:10px; }
+.field-grid .full { grid-column: 1/-1; }
+.finp {
+  width:100%; padding:10px 13px;
+  border-radius:9px; border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05); color:var(--cream);
+  font-family:'DM Sans',sans-serif; font-size:13px; outline:none;
+  transition:border-color 0.2s; resize:vertical;
+}
+.finp::placeholder { color:var(--muted); }
+.finp:focus { border-color:var(--gold); }
+select.finp option { background:var(--navy); }
+.field-hint { font-size:11px; color:var(--muted); margin-top:4px; }
+
+/* CSV area */
+.import-box {
+  background:rgba(201,168,76,0.05); border:1px dashed rgba(201,168,76,0.25);
+  border-radius:14px; padding:16px 18px; margin-bottom:20px;
+}
+.import-box h3 { font-size:13px; color:var(--gold); margin-bottom:5px; }
+.import-box p { font-size:12px; color:var(--muted); margin-bottom:12px; }
+code { color:var(--gold-light); background:rgba(255,255,255,0.06); padding:1px 6px; border-radius:4px; font-size:11px; }
+.import-actions { display:flex; gap:8px; flex-wrap:wrap; }
+#csv-status { font-size:12px; margin-top:9px; color:var(--muted); }
+
+/* Word list */
+.list-search {
+  width:100%; padding:11px 16px; margin-bottom:14px;
+  border-radius:10px; border:1px solid var(--border);
+  background:rgba(255,255,255,0.04); color:var(--cream);
+  font-family:'DM Sans',sans-serif; font-size:13px; outline:none;
+}
+.list-search:focus { border-color:var(--gold); }
+.phrase-item {
+  background:rgba(255,255,255,0.03); border:1px solid var(--border);
+  border-radius:12px; padding:13px 16px; margin-bottom:8px;
+  display:flex; gap:12px; align-items:flex-start;
+  transition:border-color 0.2s;
+}
+.phrase-item:hover { border-color:rgba(201,168,76,0.2); }
+.pi-text { flex:1; }
+.pi-esp { font-family:'Playfair Display',serif; font-size:15px; color:var(--cream); margin-bottom:3px; }
+.pi-esp .hl { color:var(--highlight-esp); }
+.pi-fra { font-size:13px; color:var(--muted); }
+.pi-fra .hl { color:var(--highlight-fra); }
+.pi-cat { font-size:11px; color:var(--muted); background:rgba(255,255,255,0.05); padding:2px 9px; border-radius:9px; white-space:nowrap; margin-top:4px; display:inline-block; }
+.pi-sr { font-size:11px; margin-left:auto; white-space:nowrap; color:var(--muted); }
+.btn-del { background:none; border:none; color:rgba(139,35,53,0.4); cursor:pointer; font-size:16px; padding:4px; transition:color 0.18s; flex-shrink:0; }
+.btn-del:hover { color:#eb5757; }
+.btn-edit { background:none; border:none; color:rgba(201,168,76,0.4); cursor:pointer; font-size:15px; padding:4px; transition:color 0.18s; flex-shrink:0; }
+.btn-edit:hover { color:var(--gold); }
+.edit-form {
+  display:none;
+  background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2);
+  border-radius:11px; padding:14px; margin-top:10px;
+  grid-template-columns:1fr 1fr; gap:8px;
+}
+.edit-form.open { display:grid; }
+.edit-form .full { grid-column:1/-1; }
+.edit-form textarea, .edit-form input, .edit-form select {
+  width:100%; padding:9px 12px;
+  border-radius:8px; border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.06); color:var(--cream);
+  font-family:'DM Sans',sans-serif; font-size:13px; outline:none;
+  resize:vertical; transition:border-color 0.2s;
+}
+.edit-form textarea:focus, .edit-form input:focus, .edit-form select:focus { border-color:var(--gold); }
+.edit-form select option { background:var(--navy); }
+.edit-actions { display:flex; gap:8px; grid-column:1/-1; }
+.btn-save { background:var(--gold); color:var(--navy); border:none; border-radius:8px; padding:9px 20px; font-size:13px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:background 0.18s; }
+.btn-save:hover { background:var(--gold-light); }
+.btn-cancel-edit { background:transparent; color:var(--muted); border:1px solid var(--border); border-radius:8px; padding:9px 16px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:color 0.18s; }
+.btn-cancel-edit:hover { color:var(--cream); }
+.phrase-item { flex-wrap:wrap; }
+
+/* ── STATS SECTION ── */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-bottom:28px; }
+.stat-card {
+  background:rgba(255,255,255,0.03); border:1px solid var(--border);
+  border-radius:14px; padding:18px 16px; text-align:center;
+}
+.stat-card big { display:block; font-size:32px; font-family:'Playfair Display',serif; color:var(--gold); }
+.stat-card small { font-size:12px; color:var(--muted); }
+.cat-progress { margin-bottom:10px; }
+.cat-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:13px; }
+.cat-name { flex:0 0 140px; color:var(--cream); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cat-bar-wrap { flex:1; height:6px; background:rgba(255,255,255,0.07); border-radius:3px; overflow:hidden; }
+.cat-bar-fill { height:100%; background:linear-gradient(90deg,var(--gold),#6fcf97); border-radius:3px; transition:width 0.4s; }
+.cat-pct { font-size:12px; color:var(--muted); flex:0 0 36px; text-align:right; }
+
+/* ── MISC ── */
+.empty { text-align:center; padding:48px 24px; color:var(--muted); font-style:italic; }
+
+@media(max-width:600px){
+  header { padding:14px 16px 10px; }
+  nav { padding:0 16px; }
+  main { padding:16px; }
+  .card-face { padding:24px 22px; }
+  .card-sentence { font-size:18px; }
+  .field-grid { grid-template-columns:1fr; }
+  .field-grid .full { grid-column:1; }
+  .sr-btn { font-size:11px; padding:9px 6px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Français <em>· Contexte</em></div>
+  <div class="header-stats">
+    <div class="hstat"><strong id="hs-total">0</strong><span>FRASES</span></div>
+    <div class="hstat"><strong id="hs-due">0</strong><span>HOY</span></div>
+    <div class="hstat"><strong id="hs-mastered">0</strong><span>DOMINADAS</span></div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <button class="tab active" onclick="showSec('study')">📖 Estudiar</button>
+  <button class="tab" onclick="showSec('manage')">✏️ Mis frases</button>
+  <button class="tab" onclick="showSec('stats')">📊 Progreso</button>
+</nav>
+
+<main>
+
+<!-- ── STUDY ── -->
+<section id="sec-study" class="active">
+  <div class="filter-row" id="study-filters"></div>
+  <div class="due-banner" id="due-banner">
+    <div>📅 Tienes <strong id="due-count">0</strong> frases para repasar hoy</div>
+    <button class="btn btn-ghost" style="font-size:12px;padding:7px 14px" onclick="filterDue()">Solo las de hoy</button>
+  </div>
+  <div class="prog-row">
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-txt" id="prog-txt">0 / 0</div>
+  </div>
+
+  <div class="card-wrap" onclick="flipCard()">
+    <div class="flip-card" id="flip-card">
+      <div class="card-face card-front" id="cf-front">
+        <div class="sr-badge sr-new" id="sr-badge">NUEVA</div>
+        <div class="card-lang-tag">Español</div>
+        <div class="card-sentence" id="cf-sentence">—</div>
+        <div class="card-keyword" id="cf-keyword">—</div>
+        <div class="card-tap">toca para ver traducción</div>
+      </div>
+      <div class="card-face card-back" id="cf-back">
+        <div class="card-lang-tag">Français</div>
+        <div class="card-sentence" id="cb-sentence">—</div>
+        <div class="card-keyword" id="cb-keyword">—</div>
+        <div class="card-note" id="cb-note"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SR rating -->
+  <div class="sr-row" id="sr-row">
+    <button class="sr-btn sr-again" onclick="rate(0)">✗ No la sé<span class="sr-label">Repetir ahora</span></button>
+    <button class="sr-btn sr-hard" onclick="rate(1)">△ Difícil<span class="sr-label">En 1 día</span></button>
+    <button class="sr-btn sr-good" onclick="rate(3)">✓ Bien<span class="sr-label">En varios días</span></button>
+    <button class="sr-btn sr-easy" onclick="rate(5)">★ Fácil<span class="sr-label">Mucho después</span></button>
+  </div>
+
+  <div class="ctrl-row">
+    <button class="btn btn-ghost" onclick="prevCard()">← Anterior</button>
+    <button class="btn btn-gold" onclick="flipCard()">Voltear</button>
+    <button class="btn btn-ghost" onclick="nextCard()">Siguiente →</button>
+  </div>
+  <div style="text-align:center">
+    <button class="btn btn-ghost" onclick="shuffleDeck()" style="font-size:12px;padding:8px 16px">🔀 Mezclar</button>
+  </div>
+</section>
+
+<!-- ── MANAGE ── -->
+<section id="sec-manage">
+  <div class="sec-title">Mis frases</div>
+  <div class="sec-sub">Agrega frases con la palabra clave resaltada para aprenderla en contexto.</div>
+
+  <div class="add-card">
+    <h3>➕ Nueva frase</h3>
+    <div class="field-grid">
+      <div>
+        <textarea class="finp" id="inp-esp" rows="2" placeholder="Frase en español…"></textarea>
+        <div class="field-hint">Rodea la palabra clave con [corchetes]: Ella [come] una manzana.</div>
+      </div>
+      <div>
+        <textarea class="finp" id="inp-fra" rows="2" placeholder="Phrase en français…"></textarea>
+        <div class="field-hint">Idem en francés: Elle [mange] une pomme.</div>
+      </div>
+      <input class="finp" id="inp-note" placeholder="Nota gramatical (opcional): mange = 3ª pers. sing. de manger" />
+      <select class="finp" id="inp-cat">
+        <option value="">Categoría…</option>
+        <option>Verbos cotidianos</option>
+        <option>Naturaleza y clima</option>
+        <option>Emociones</option>
+        <option>Saludos</option>
+        <option>Comida</option>
+        <option>Familia</option>
+        <option>Casa</option>
+        <option>Viajes</option>
+        <option>Trabajo</option>
+        <option>General</option>
+      </select>
+      <button class="btn btn-gold full" onclick="addPhrase()">+ Agregar frase</button>
+    </div>
+  </div>
+
+  <div class="import-box">
+    <h3>📥 Importar CSV masivo</h3>
+    <p>Columnas: <code>esp</code>, <code>fra</code>, <code>cat</code>, <code>note</code> — rodea la palabra clave con [corchetes] en cada frase.</p>
+    <div class="import-actions">
+      <label class="btn btn-ghost" style="cursor:pointer;font-size:12px;padding:9px 16px">
+        📂 Elegir CSV
+        <input type="file" id="csv-file" accept=".csv" style="display:none" onchange="importCSV(this)"/>
+      </label>
+      <button class="btn btn-ghost" onclick="downloadTemplate()" style="font-size:12px;padding:9px 16px">⬇️ Plantilla</button>
+    </div>
+    <div id="csv-status"></div>
+  </div>
+
+  <input class="list-search" id="list-search" placeholder="🔍 Buscar frases…" oninput="renderList()"/>
+  <div id="phrase-list"></div>
+</section>
+
+<!-- ── STATS ── -->
+<section id="sec-stats">
+  <div class="sec-title">Tu progreso</div>
+  <div class="sec-sub">Estadísticas del algoritmo de repetición espaciada.</div>
+  <div class="stats-grid">
+    <div class="stat-card"><big id="st-total">0</big><small>Frases totales</small></div>
+    <div class="stat-card"><big id="st-new">0</big><small>Nuevas (sin ver)</small></div>
+    <div class="stat-card"><big id="st-due">0</big><small>Para hoy</small></div>
+    <div class="stat-card"><big id="st-mastered">0</big><small>Dominadas (≥21 días)</small></div>
+    <div class="stat-card"><big id="st-streak">0</big><small>Racha (días)</small></div>
+  </div>
+  <div class="sec-sub" style="margin-bottom:12px">Por categoría</div>
+  <div id="cat-progress-list"></div>
+</section>
+
+</main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+// ══════════════════════════════════════════
+//  DATA — phrases with [keyword] markers
+// ══════════════════════════════════════════
+const DEFAULTS = [
+  // ── VERBOS COTIDIANOS ──
+  {id:1,  esp:"Ella [come] una manzana cada mañana.",        fra:"Elle [mange] une pomme chaque matin.",            cat:"Verbos cotidianos", note:"manger: yo manges, tu manges, il/elle mange"},
+  {id:2,  esp:"Nosotros [bebemos] agua después del ejercicio.",fra:"Nous [buvons] de l'eau après l'exercice.",        cat:"Verbos cotidianos", note:"boire es irregular"},
+  {id:3,  esp:"Él [habla] francés muy bien.",                 fra:"Il [parle] très bien le français.",               cat:"Verbos cotidianos", note:"parler: terminación -er regular"},
+  {id:4,  esp:"¿A qué hora [sales] de casa?",                 fra:"À quelle heure [pars]-tu de chez toi ?",         cat:"Verbos cotidianos", note:"partir: je pars, tu pars"},
+  {id:5,  esp:"Ellos [trabajan] en una empresa francesa.",     fra:"Ils [travaillent] dans une entreprise française.",cat:"Verbos cotidianos", note:"travailler: terminación -er"},
+  {id:6,  esp:"Yo [cocino] para toda la familia.",             fra:"Je [cuisine] pour toute la famille.",             cat:"Verbos cotidianos", note:"cuisiner: regular -er"},
+  {id:7,  esp:"¿Puedes [ayudarme] con la tarea?",             fra:"Peux-tu m'[aider] avec le devoir ?",             cat:"Verbos cotidianos", note:"aider: regular -er"},
+  {id:8,  esp:"[Necesito] un café para despertar.",            fra:"J'ai [besoin] d'un café pour me réveiller.",     cat:"Verbos cotidianos", note:"avoir besoin de = necesitar"},
+  {id:9,  esp:"Ella [olvida] siempre sus llaves.",             fra:"Elle [oublie] toujours ses clés.",               cat:"Verbos cotidianos", note:"oublier: regular -er"},
+  {id:10, esp:"Nosotros [aprendemos] algo nuevo cada día.",    fra:"Nous [apprenons] quelque chose de nouveau chaque jour.", cat:"Verbos cotidianos", note:"apprendre: irregular"},
+  {id:11, esp:"Él [corre] cinco kilómetros todas las mañanas.",fra:"Il [court] cinq kilomètres chaque matin.",      cat:"Verbos cotidianos", note:"courir: je cours, tu cours, il court"},
+  {id:12, esp:"¿Qué [piensas] de esta película?",             fra:"Que [penses]-tu de ce film ?",                   cat:"Verbos cotidianos", note:"penser: regular -er"},
+  {id:13, esp:"Ella [se ducha] antes de dormir.",              fra:"Elle [se douche] avant de dormir.",              cat:"Verbos cotidianos", note:"verbo reflexivo: se doucher"},
+  {id:14, esp:"Yo [espero] el autobús en la esquina.",         fra:"J'[attends] le bus au coin de la rue.",          cat:"Verbos cotidianos", note:"attendre: terminación -re"},
+  {id:15, esp:"¿[Entiendes] lo que te digo?",                 fra:"[Comprends]-tu ce que je te dis ?",              cat:"Verbos cotidianos", note:"comprendre: je comprends, tu comprends"},
+
+  // ── NATURALEZA Y CLIMA ──
+  {id:20, esp:"El [sol] sale a las seis de la mañana.",        fra:"Le [soleil] se lève à six heures du matin.",    cat:"Naturaleza y clima", note:"se lever = levantarse (sol)"},
+  {id:21, esp:"Habrá [lluvia] toda la tarde.",                 fra:"Il y aura de la [pluie] tout l'après-midi.",    cat:"Naturaleza y clima", note:"il y aura = habrá (futuro)"},
+  {id:22, esp:"El [viento] es muy fuerte hoy.",                fra:"Le [vent] est très fort aujourd'hui.",           cat:"Naturaleza y clima", note:"fort(e) = fuerte"},
+  {id:23, esp:"Vi un [arco iris] después de la tormenta.",     fra:"J'ai vu un [arc-en-ciel] après l'orage.",       cat:"Naturaleza y clima", note:"après = después"},
+  {id:24, esp:"Subimos la [montaña] al amanecer.",             fra:"Nous avons gravi la [montagne] à l'aube.",      cat:"Naturaleza y clima", note:"gravir = escalar/subir"},
+  {id:25, esp:"El [bosque] huele a tierra mojada.",            fra:"La [forêt] sent la terre mouillée.",             cat:"Naturaleza y clima", note:"sentir = oler"},
+  {id:26, esp:"Hace mucho [frío] en diciembre aquí.",          fra:"Il fait très [froid] en décembre ici.",         cat:"Naturaleza y clima", note:"il fait froid = hace frío"},
+  {id:27, esp:"Las [nubes] tapan el sol por completo.",        fra:"Les [nuages] cachent complètement le soleil.",  cat:"Naturaleza y clima", note:"cacher = esconder"},
+  {id:28, esp:"El [río] desbordó después de las lluvias.",     fra:"La [rivière] a débordé après les pluies.",      cat:"Naturaleza y clima", note:"déborder = desbordarse"},
+  {id:29, esp:"Nos bañamos en el [lago] al atardecer.",        fra:"Nous nous sommes baignés dans le [lac] au coucher du soleil.", cat:"Naturaleza y clima", note:"se baigner = bañarse"},
+  {id:30, esp:"La [tormenta] llegó de repente.",               fra:"L'[orage] est arrivé tout d'un coup.",          cat:"Naturaleza y clima", note:"tout d'un coup = de repente"},
+  {id:31, esp:"Recogimos [flores] silvestres en el campo.",    fra:"Nous avons cueilli des [fleurs] sauvages dans les champs.", cat:"Naturaleza y clima", note:"cueillir = recoger (irregular)"},
+  {id:32, esp:"La [playa] estaba llena de arena blanca.",      fra:"La [plage] était couverte de sable blanc.",     cat:"Naturaleza y clima", note:"était = estaba (imparfait)"},
+  {id:33, esp:"El [trueno] nos despertó a medianoche.",        fra:"Le [tonnerre] nous a réveillés à minuit.",      cat:"Naturaleza y clima", note:"passé composé + COD"},
+  {id:34, esp:"La [niebla] cubre el valle cada mañana.",       fra:"Le [brouillard] couvre la vallée chaque matin.",cat:"Naturaleza y clima", note:"couvrir = cubrir (irregular)"},
+
+  // ── EMOCIONES ──
+  {id:40, esp:"Estoy muy [feliz] con las noticias.",           fra:"Je suis très [heureux] avec ces nouvelles.",    cat:"Emociones", note:"heureux (m) / heureuse (f)"},
+  {id:41, esp:"Ella estaba [triste] después de la despedida.", fra:"Elle était [triste] après les adieux.",         cat:"Emociones", note:"triste = invariable"},
+  {id:42, esp:"Me puse [nervioso] antes del examen.",          fra:"Je suis devenu [nerveux] avant l'examen.",      cat:"Emociones", note:"devenir = ponerse/volverse"},
+  {id:43, esp:"Estoy [orgulloso] de tu esfuerzo.",             fra:"Je suis [fier] de ton effort.",                 cat:"Emociones", note:"fier (m) / fière (f)"},
+  {id:44, esp:"Se sintió [avergonzado] frente a todos.",       fra:"Il s'est senti [honteux] devant tout le monde.",cat:"Emociones", note:"se sentir + adjectif"},
+  {id:45, esp:"La [alegría] de los niños era contagiosa.",     fra:"La [joie] des enfants était contagieuse.",     cat:"Emociones", note:"contagieux/contagieuse"},
+  {id:46, esp:"Tengo [miedo] de hablar en público.",           fra:"J'ai [peur] de parler en public.",              cat:"Emociones", note:"avoir peur = tener miedo"},
+  {id:47, esp:"Siento una profunda [nostalgia] por mi país.",  fra:"Je ressens une profonde [nostalgie] pour mon pays.", cat:"Emociones", note:"ressentir = sentir profundamente"},
+  {id:48, esp:"Me [sorprendió] mucho su reacción.",            fra:"Sa réaction m'a beaucoup [surpris].",           cat:"Emociones", note:"surprendre: part. pasado = surpris"},
+  {id:49, esp:"Ella está [emocionada] con el viaje.",          fra:"Elle est [enthousiaste] pour le voyage.",       cat:"Emociones", note:"enthousiaste = invariable"},
+  {id:50, esp:"Siento [gratitud] hacia todos los que me ayudaron.", fra:"Je ressens de la [gratitude] envers tous ceux qui m'ont aidé.", cat:"Emociones", note:"envers = hacia (personas)"},
+  {id:51, esp:"La [frustración] le impedía concentrarse.",     fra:"La [frustration] l'empêchait de se concentrer.",cat:"Emociones", note:"empêcher de = impedir"},
+  {id:52, esp:"Tengo [confianza] en ti.",                      fra:"J'ai [confiance] en toi.",                      cat:"Emociones", note:"avoir confiance en = confiar en"},
+  {id:53, esp:"Ese [recuerdo] me llena de alegría.",           fra:"Ce [souvenir] me remplit de joie.",             cat:"Emociones", note:"remplir = llenar"},
+
+  // ── SALUDOS ──
+  {id:60, esp:"[Buenos días], ¿cómo estás hoy?",              fra:"[Bonjour], comment vas-tu aujourd'hui ?",       cat:"Saludos", note:"comment vas-tu = ¿cómo estás? (informal)"},
+  {id:61, esp:"[Mucho gusto] en conocerte.",                   fra:"[Enchanté(e)] de faire ta connaissance.",      cat:"Saludos", note:"enchanté(e) = encantado/a"},
+  {id:62, esp:"[Hasta luego], nos vemos mañana.",              fra:"[À bientôt], on se voit demain.",               cat:"Saludos", note:"à bientôt = hasta pronto"},
+  {id:63, esp:"[Por favor], ¿me puede ayudar?",               fra:"[S'il vous plaît], pouvez-vous m'aider ?",     cat:"Saludos", note:"s'il vous plaît = formal; s'il te plaît = informal"},
+  {id:64, esp:"[Gracias] por tu amabilidad.",                  fra:"[Merci] pour ta gentillesse.",                  cat:"Saludos", note:"gentillesse = amabilidad"},
+];
+
+// ══════════════════════════════════════════
+//  SM-2 SPACED REPETITION ALGORITHM
+// ══════════════════════════════════════════
+// quality: 0=again, 1=hard, 3=good, 5=easy
+function sm2(card, quality) {
+  let { interval = 1, repetitions = 0, easeFactor = 2.5, nextReview } = card.sr || {};
+
+  if (quality < 3) {
+    repetitions = 0;
+    interval = 1;
+  } else {
+    if (repetitions === 0) interval = 1;
+    else if (repetitions === 1) interval = 6;
+    else interval = Math.round(interval * easeFactor);
+    repetitions++;
+  }
+
+  easeFactor = Math.max(1.3, easeFactor + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+
+  const now = new Date();
+  now.setHours(0,0,0,0);
+  now.setDate(now.getDate() + interval);
+  nextReview = now.toISOString().split('T')[0];
+
+  return { interval, repetitions, easeFactor, nextReview };
+}
+
+function isNew(card) { return !card.sr || !card.sr.nextReview; }
+function isDue(card) {
+  if (isNew(card)) return true;
+  const today = new Date().toISOString().split('T')[0];
+  return card.sr.nextReview <= today;
+}
+function isMastered(card) {
+  return card.sr && card.sr.interval >= 21;
+}
+function srLabel(card) {
+  if (isNew(card)) return { text: 'NUEVA', cls: 'sr-new' };
+  if (isMastered(card)) return { text: 'DOMINADA', cls: 'sr-ok' };
+  if (isDue(card)) return { text: 'REPASAR', cls: 'sr-due' };
+  return { text: `${card.sr.interval}d`, cls: 'sr-ok' };
+}
+
+// ══════════════════════════════════════════
+//  FIREBASE SETUP (compat SDK — máxima compatibilidad)
+// ══════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyC3pbM2sMbTsoj7tAi8W74HYjCyHwwFvuQ",
+  authDomain: "mi-frances.firebaseapp.com",
+  projectId: "mi-frances",
+  storageBucket: "mi-frances.firebasestorage.app",
+  messagingSenderId: "904507889507",
+  appId: "1:904507889507:web:e78da882806c527f806556"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const USER_DOC = db.collection('users').doc('main');
+
+// ── Loading overlay ──
+function showLoading(msg) {
+  document.getElementById('sync-overlay').style.display = 'flex';
+  document.getElementById('sync-msg').textContent = msg;
+}
+function hideLoading() {
+  document.getElementById('sync-overlay').style.display = 'none';
+}
+
+// ── Load from Firestore — always waits for cloud ──
+async function loadData() {
+  try {
+    const snap = await Promise.race([
+      USER_DOC.get(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 10000))
+    ]);
+    if (snap.exists) {
+      const cloud = snap.data().phrases || [];
+      try { localStorage.setItem('francais_ctx_v2', JSON.stringify(cloud)); } catch(e) {}
+      const cloudIds = new Set(cloud.map(p => p.id));
+      const newDefaults = DEFAULTS.filter(d => !cloudIds.has(d.id)).map(d => ({ ...d, sr: null }));
+      return [...cloud, ...newDefaults];
+    } else {
+      return DEFAULTS.map(d => ({ ...d, sr: null }));
+    }
+  } catch(e) {
+    console.warn('Firebase load failed:', e.message);
+    showLoading('⚠️ Sin conexión — usando datos locales');
+    setTimeout(hideLoading, 2500);
+    try {
+      const s = localStorage.getItem('francais_ctx_v2');
+      if (s) return JSON.parse(s);
+    } catch(e2) {}
+    return DEFAULTS.map(d => ({ ...d, sr: null }));
+  }
+}
+
+// ── Save to Firestore + localStorage ──
+let saveTimer = null;
+function save() {
+  try { localStorage.setItem('francais_ctx_v2', JSON.stringify(phrases)); } catch(e) {}
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try {
+      await USER_DOC.set({ phrases, streak: loadStreak() });
+      console.log('✅ Guardado en Firebase:', phrases.length, 'frases');
+    } catch(e) {
+      console.warn('Firebase save failed:', e);
+    }
+  }, 1500);
+}
+
+// ── Streak (stored in Firestore alongside phrases) ──
+function loadStreak() {
+  try { return JSON.parse(localStorage.getItem('francais_streak') || '{"days":0,"last":""}'); } catch(e) { return {days:0,last:""}; }
+}
+function saveStreak() {
+  const today = new Date().toISOString().split('T')[0];
+  let s = loadStreak();
+  const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+  const yStr = yesterday.toISOString().split('T')[0];
+  if (s.last === today) return;
+  if (s.last === yStr) s.days++;
+  else if (s.last !== today) s.days = 1;
+  s.last = today;
+  localStorage.setItem('francais_streak', JSON.stringify(s));
+}
+
+let phrases = [];
+let currentFilter = 'Todas';
+let deck = [];
+let deckIdx = 0;
+let flipped = false;
+let dueOnly = false;
+
+// ══════════════════════════════════════════
+//  PARSE [keyword] syntax → HTML
+// ══════════════════════════════════════════
+function parseHL(text) {
+  return text.replace(/\[([^\]]+)\]/g, '<span class="hl">$1</span>');
+}
+function parseKeyword(text) {
+  const m = text.match(/\[([^\]]+)\]/);
+  return m ? m[1] : '';
+}
+
+// ══════════════════════════════════════════
+//  DECK & FILTERS
+// ══════════════════════════════════════════
+function buildDeck() {
+  let d = currentFilter === 'Todas' ? [...phrases] : phrases.filter(p => p.cat === currentFilter);
+  if (dueOnly) d = d.filter(p => isDue(p));
+  return d;
+}
+
+function getCategories() {
+  return ['Todas', ...new Set(phrases.map(p => p.cat).filter(Boolean))];
+}
+
+function renderFilters() {
+  const cats = getCategories();
+  document.getElementById('study-filters').innerHTML = cats.map(c =>
+    `<button class="fbtn ${c===currentFilter?'active':''}" onclick="setFilter('${c}')">${c}</button>`
+  ).join('');
+}
+
+function setFilter(cat) {
+  currentFilter = cat;
+  dueOnly = false;
+  renderFilters();
+  deck = buildDeck();
+  deckIdx = 0;
+  renderCard();
+}
+
+function filterDue() {
+  dueOnly = !dueOnly;
+  deck = buildDeck();
+  deckIdx = 0;
+  renderCard();
+}
+
+// ══════════════════════════════════════════
+//  RENDER CARD
+// ══════════════════════════════════════════
+function renderCard() {
+  flipped = false;
+  document.getElementById('flip-card').classList.remove('flipped');
+  document.getElementById('sr-row').classList.remove('visible');
+
+  updateHeaderStats();
+
+  const d = deck;
+  if (!d.length) {
+    document.getElementById('cf-sentence').innerHTML = '—';
+    document.getElementById('cf-keyword').textContent = '—';
+    document.getElementById('cb-sentence').innerHTML = '—';
+    document.getElementById('cb-keyword').textContent = '';
+    document.getElementById('cb-note').textContent = '';
+    document.getElementById('prog-txt').textContent = '0 / 0';
+    document.getElementById('prog-fill').style.width = '0%';
+    return;
+  }
+
+  const p = d[deckIdx];
+  document.getElementById('cf-sentence').innerHTML = parseHL(p.esp);
+  document.getElementById('cf-keyword').textContent = '🔑 ' + parseKeyword(p.esp);
+  document.getElementById('cb-sentence').innerHTML = parseHL(p.fra);
+  document.getElementById('cb-keyword').textContent = '🔑 ' + parseKeyword(p.fra);
+  document.getElementById('cb-note').textContent = p.note || '';
+
+  const lbl = srLabel(p);
+  const badge = document.getElementById('sr-badge');
+  badge.textContent = lbl.text;
+  badge.className = 'sr-badge ' + lbl.cls;
+
+  document.getElementById('prog-txt').textContent = `${deckIdx+1} / ${d.length}`;
+  document.getElementById('prog-fill').style.width = ((deckIdx+1)/d.length*100)+'%';
+
+  const dueN = phrases.filter(p => isDue(p)).length;
+  document.getElementById('due-count').textContent = dueN;
+}
+
+function flipCard() {
+  flipped = !flipped;
+  document.getElementById('flip-card').classList.toggle('flipped', flipped);
+  if (flipped) document.getElementById('sr-row').classList.add('visible');
+}
+
+function nextCard() {
+  if (!deck.length) return;
+  deckIdx = (deckIdx + 1) % deck.length;
+  renderCard();
+}
+function prevCard() {
+  if (!deck.length) return;
+  deckIdx = (deckIdx - 1 + deck.length) % deck.length;
+  renderCard();
+}
+function shuffleDeck() {
+  deck = deck.sort(() => Math.random() - 0.5);
+  deckIdx = 0;
+  renderCard();
+}
+
+function rate(quality) {
+  const p = deck[deckIdx];
+  const idx = phrases.findIndex(x => x.id === p.id);
+  if (idx !== -1) {
+    phrases[idx].sr = sm2(phrases[idx], quality);
+    save();
+    saveStreak();
+  }
+  if (quality < 3) {
+    // Move to end of deck so they repeat
+    deck.push(deck.splice(deckIdx, 1)[0]);
+    renderCard();
+  } else {
+    nextCard();
+  }
+}
+
+// ══════════════════════════════════════════
+//  HEADER STATS
+// ══════════════════════════════════════════
+function updateHeaderStats() {
+  document.getElementById('hs-total').textContent = phrases.length;
+  document.getElementById('hs-due').textContent = phrases.filter(p => isDue(p)).length;
+  document.getElementById('hs-mastered').textContent = phrases.filter(p => isMastered(p)).length;
+}
+
+// ══════════════════════════════════════════
+//  ADD PHRASE
+// ══════════════════════════════════════════
+function addPhrase() {
+  const esp = document.getElementById('inp-esp').value.trim();
+  const fra = document.getElementById('inp-fra').value.trim();
+  const note = document.getElementById('inp-note').value.trim();
+  const cat = document.getElementById('inp-cat').value || 'General';
+
+  if (!esp || !fra) { alert('Escribe ambas frases.'); return; }
+  if (!esp.includes('[') || !fra.includes('[')) {
+    alert('Recuerda poner [corchetes] alrededor de la palabra clave en ambas frases.'); return;
+  }
+
+  phrases.push({ id: Date.now(), esp, fra, note, cat, sr: null });
+  save();
+  renderFilters();
+  renderList();
+  deck = buildDeck();
+  updateHeaderStats();
+  document.getElementById('inp-esp').value = '';
+  document.getElementById('inp-fra').value = '';
+  document.getElementById('inp-note').value = '';
+}
+
+function deletePhrase(id) {
+  phrases = phrases.filter(p => p.id !== id);
+  save();
+  renderFilters();
+  renderList();
+  deck = buildDeck();
+  deckIdx = Math.min(deckIdx, Math.max(0, deck.length-1));
+  renderCard();
+}
+
+// ══════════════════════════════════════════
+//  PHRASE LIST + INLINE EDIT
+// ══════════════════════════════════════════
+const CATS = ['Verbos cotidianos','Naturaleza y clima','Emociones','Saludos','Comida','Familia','Casa','Viajes','Trabajo','General'];
+
+function renderList() {
+  const q = document.getElementById('list-search').value.toLowerCase();
+  const filtered = phrases.filter(p =>
+    p.esp.toLowerCase().includes(q) || p.fra.toLowerCase().includes(q) || (p.cat||'').toLowerCase().includes(q)
+  );
+  const el = document.getElementById('phrase-list');
+  if (!filtered.length) { el.innerHTML = '<div class="empty">No se encontraron frases.</div>'; return; }
+  el.innerHTML = filtered.map(p => {
+    const lbl = srLabel(p);
+    const catOpts = CATS.map(c => `<option${c===p.cat?' selected':''}>${c}</option>`).join('');
+    return `
+    <div class="phrase-item" id="pi-${p.id}">
+      <div class="pi-text">
+        <div class="pi-esp">${parseHL(p.esp)}</div>
+        <div class="pi-fra">${parseHL(p.fra)}</div>
+        <span class="pi-cat">${p.cat||'—'}</span>
+        ${p.note ? `<div style="font-size:11px;color:var(--muted);margin-top:3px;font-style:italic">📝 ${p.note}</div>` : ''}
+      </div>
+      <div class="pi-sr"><span class="sr-badge ${lbl.cls}" style="position:static;display:inline-block">${lbl.text}</span></div>
+      <button class="btn-edit" onclick="openEdit(${p.id})" title="Editar">✏️</button>
+      <button class="btn-del"  onclick="deletePhrase(${p.id})" title="Eliminar">🗑</button>
+
+      <div class="edit-form" id="ef-${p.id}">
+        <div class="full" style="font-size:11px;color:var(--gold);margin-bottom:2px">✏️ Editando frase — usa [corchetes] para la palabra clave</div>
+        <div>
+          <textarea id="ef-esp-${p.id}" rows="2">${p.esp}</textarea>
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">Español</div>
+        </div>
+        <div>
+          <textarea id="ef-fra-${p.id}" rows="2">${p.fra}</textarea>
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">Français</div>
+        </div>
+        <input id="ef-note-${p.id}" placeholder="Nota gramatical (opcional)" value="${p.note||''}" class="full"/>
+        <select id="ef-cat-${p.id}" class="full">${catOpts}</select>
+        <div class="edit-actions full">
+          <button class="btn-save" onclick="saveEdit(${p.id})">Guardar</button>
+          <button class="btn-cancel-edit" onclick="closeEdit(${p.id})">Cancelar</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openEdit(id) {
+  // Close any other open editor first
+  document.querySelectorAll('.edit-form.open').forEach(f => f.classList.remove('open'));
+  document.getElementById('ef-' + id).classList.add('open');
+  document.getElementById('ef-esp-' + id).focus();
+}
+
+function closeEdit(id) {
+  document.getElementById('ef-' + id).classList.remove('open');
+}
+
+function saveEdit(id) {
+  const esp  = document.getElementById('ef-esp-'  + id).value.trim();
+  const fra  = document.getElementById('ef-fra-'  + id).value.trim();
+  const note = document.getElementById('ef-note-' + id).value.trim();
+  const cat  = document.getElementById('ef-cat-'  + id).value;
+
+  if (!esp || !fra) { alert('Las frases no pueden estar vacías.'); return; }
+  if (!esp.includes('[') || !fra.includes('[')) {
+    alert('Recuerda poner [corchetes] alrededor de la palabra clave en ambas frases.'); return;
+  }
+
+  const idx = phrases.findIndex(p => p.id === id);
+  if (idx !== -1) {
+    phrases[idx] = { ...phrases[idx], esp, fra, note, cat };
+    save();
+    renderFilters();
+    renderList();
+    deck = buildDeck();
+    renderCard();
+  }
+}
+
+// ══════════════════════════════════════════
+//  CSV IMPORT / EXPORT
+// ══════════════════════════════════════════
+function importCSV(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const lines = e.target.result.split(/\r?\n/).filter(l => l.trim());
+    if (lines.length < 2) { setStatus('⚠️ Archivo vacío.'); return; }
+    const hdr = lines[0].toLowerCase().split(',').map(h => h.trim().replace(/"/g,''));
+    const iE = hdr.indexOf('esp'), iF = hdr.indexOf('fra'), iC = hdr.indexOf('cat'), iN = hdr.indexOf('note');
+    if (iE===-1||iF===-1) { setStatus('❌ Faltan columnas "esp" y "fra".'); return; }
+    let added=0, skipped=0;
+    for (let i=1;i<lines.length;i++) {
+      const c = lines[i].split(',').map(x => x.trim().replace(/^"|"$/g,''));
+      const esp=c[iE]||'', fra=c[iF]||'';
+      if (!esp||!fra){skipped++;continue;}
+      if (phrases.some(p=>p.esp===esp)){skipped++;continue;}
+      phrases.push({id:Date.now()+i, esp, fra, cat:iC!==-1&&c[iC]?c[iC]:'General', note:iN!==-1&&c[iN]?c[iN]:'', sr:null});
+      added++;
+    }
+    save(); renderFilters(); renderList(); deck=buildDeck(); updateHeaderStats();
+    input.value='';
+    const st = document.getElementById('csv-status');
+    st.style.color = added>0?'#6fcf97':'#eb5757';
+    st.textContent = `✅ ${added} frases importadas.${skipped?` (${skipped} omitidas)`:''}`;
+  };
+  reader.readAsText(file,'UTF-8');
+}
+function setStatus(msg) { document.getElementById('csv-status').textContent = msg; }
+
+function downloadTemplate() {
+  const s = `esp,fra,cat,note\nElla [come] una manzana.,Elle [mange] une pomme.,Verbos cotidianos,manger = verbo irregular\nHace [frío] hoy.,Il fait [froid] aujourd'hui.,Naturaleza y clima,il fait froid = expresión impersonal\nEstoy [feliz] de verte.,Je suis [heureux] de te voir.,Emociones,heureux (m) / heureuse (f)\n`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([s],{type:'text/csv;charset=utf-8;'}));
+  a.download = 'plantilla_frases.csv'; a.click();
+}
+
+// ══════════════════════════════════════════
+//  STATS SECTION
+// ══════════════════════════════════════════
+function renderStats() {
+  const total = phrases.length;
+  const newC = phrases.filter(p => isNew(p)).length;
+  const due = phrases.filter(p => isDue(p)).length;
+  const mastered = phrases.filter(p => isMastered(p)).length;
+  const streak = loadStreak().days;
+
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-new').textContent = newC;
+  document.getElementById('st-due').textContent = due;
+  document.getElementById('st-mastered').textContent = mastered;
+  document.getElementById('st-streak').textContent = streak;
+
+  const cats = [...new Set(phrases.map(p=>p.cat).filter(Boolean))];
+  document.getElementById('cat-progress-list').innerHTML = cats.map(cat => {
+    const all = phrases.filter(p=>p.cat===cat);
+    const done = all.filter(p=>isMastered(p)).length;
+    const pct = all.length ? Math.round(done/all.length*100) : 0;
+    return `<div class="cat-row">
+      <div class="cat-name">${cat}</div>
+      <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${pct}%"></div></div>
+      <div class="cat-pct">${pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════
+function showSec(name) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['study','manage','stats'][i]===name));
+  document.getElementById('sec-'+name).classList.add('active');
+  if (name==='manage') renderList();
+  if (name==='stats') renderStats();
+}
+
+// ── KEYBOARD ──
+document.addEventListener('keydown', e => {
+  if (['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+  if (e.key===' '||e.key==='ArrowUp'){e.preventDefault();flipCard();}
+  if (e.key==='ArrowRight') nextCard();
+  if (e.key==='ArrowLeft') prevCard();
+  if (e.key==='1') rate(0);
+  if (e.key==='2') rate(1);
+  if (e.key==='3') rate(3);
+  if (e.key==='4') rate(5);
+});
+
+// ══════════════════════════════════════════
+//  INIT (async — loads from Firebase first)
+// ══════════════════════════════════════════
+async function init() {
+  showLoading('Sincronizando con la nube… ☁️');
+  phrases = await loadData();
+  hideLoading();
+  deck = buildDeck();
+  renderFilters();
+  renderCard();
+  updateHeaderStats();
+}
+
+// ── Expose functions for onclick handlers ──
+// (not needed with regular script tag — functions are global automatically)
+
+
+init();
+</script>
+
+<!-- Sync overlay -->
+<div id="sync-overlay" style="
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(13,27,42,0.92); backdrop-filter:blur(6px);
+  flex-direction:column; align-items:center; justify-content:center; gap:16px;
+">
+  <div style="font-size:36px; animation: spin 1.2s linear infinite">☁️</div>
+  <div id="sync-msg" style="font-family:'DM Sans',sans-serif; color:#c9a84c; font-size:15px; letter-spacing:0.05em">Cargando…</div>
+  <div style="font-size:12px; color:#7a8899">Conectando con Firebase…</div>
+</div>
+<style>
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+</style>
+
+</body>
+</html>
